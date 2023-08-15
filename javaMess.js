@@ -1,13 +1,122 @@
+//----------  MOVIMIENTOS: USO DE SETINTERVAL --------------------------
+
+// MOVIMIENTO OJOS JUGADOR: cambio de imágenes del jugador mientras esta detenido (tecla )
+var quieto = setInterval(detenido,2000); //setInterval(nombreFuncion, tiempoIntervalo)
+//const moverJugador = document.getElementById("cesped");
+
+// crear la función que cambia la img del cesped
+var cambiarOjos = true; //esta variable inicia en true, y cambia a false luego de tocar el boton "Tirada"
+var contador0 = 2; 
+function detenido(){
+    if(cambiarOjos == true && (contador0%2 == 0)){
+        imgJugador.src = "img/parado0.png"; 
+        cambiarOjos = false;
+        contador0 ++;
+            } else if (cambiarOjos == false && (contador0%2 != 0)){
+            imgJugador.src = " ";
+               imgJugador.src = "img/parado1.png"; 
+                cambiarOjos = true;
+                contador0++; 
+    }
+}
+
+function detenerDetenido(){
+    clearInterval(quieto); //clearInterval(nombreVariableDeSetInterval)
+}
+
+
+// MOVIMIENTO CESPED: cambio de imágenes del cesped 
+var pasto = setInterval(cesped,1000); //setInterval(nombreFuncion, tiempoIntervalo)
+const moverCesped = document.getElementById("cesped");
+
+// crear la función que cambia la img del cesped
+var cambiarCesped = true; //esta variable inicia en true, y cambia a false  
+var contador1 = 2; 
+function cesped(){
+    if(cambiarCesped == true && (contador1%2 == 0)){
+        moverCesped.src = "img/cesped33.png"; 
+        cambiarCesped = false;
+        contador1 ++;
+            } else if (cambiarCesped == false && (contador1%2 != 0)){
+                moverCesped.src = "img/cesped22.jpg"; 
+                cambiarCesped = true;
+                contador1++; 
+    }
+}
+
+
+function detenerCesped(){
+    clearInterval(pasto);
+}
+
+
+// MOVIMIENTO AVANCE JUGADOR: cambio de imágenes del jugador mientras avanza (tecla j)
+var avanza = setInterval(correr,1000); //setInterval(nombreFuncion, tiempoIntervalo)
+//const moverJugador = document.getElementById("cesped");
+
+// crear la función que cambia la img del cesped
+var cambiarJugador = true; //esta variable inicia en true, y cambia a false luego de tocar el boton "Tirada"
+var contador2 = 2; 
+function correr(){
+    if(cambiarJugador == true && (contador2%2 == 0)){
+        imgJugador.src = "img/avanza0.png"; 
+        cambiarJugador = false;
+        contador2 ++;
+            } else if (cambiarJugador == false && (contador2%2 != 0)){
+            imgJugador.src = " ";
+               imgJugador.src = "img/avanza1.png"; 
+                cambiarJugador = true;
+                contador2++; 
+    }
+}
+
+function detenerJugador(){
+    clearInterval(avanza); //clearInterval(nombreVariableDeSetInterval)
+}
+
+
+// MOVIMIENTO PATADA JUGADOR: cambio de imágenes del jugador mientras patea (teclas v, b y h)
+var patada = setInterval(patear,1000); //setInterval(nombreFuncion, tiempoIntervalo)
+
+// crear la función que cambia la img del jugador
+var cambiarPatada = true; //esta variable inicia en true, y cambia a false luego  
+var contador3 = 2; 
+function patear(){
+    if(cambiarPatada == true && (contador3%2 == 0)){
+        imgJugador.src = "img/patada0.png"; 
+        cambiarPatada = false;
+        contador3 ++;
+            } else if (cambiarPatada == false && (contador3%2 != 0)){
+                imgJugador.src = "img/patada1.png"; 
+                cambiarPatada = true;
+                contador3++; 
+    }
+}
+
+function detenerPatada(){
+    clearInterval(patada); //clearInterval(nombreVariableDeSetInterval)
+}
+
 // LEER EL TECLADO
- 
 // AVANZAR    LEER EL TECLADO (avanzar tecla j  "74")
 document.addEventListener('keypress', function(evento){// recordar que el keypress solo acepta valores alfabeticos
-    if(evento.keyCode == 74 || evento.keyCode == 106 ){  
-     imgJugador.src = "img/corriendo.gif";//ancho:80  alto:123 
-    restaIzquierda(); 
+    if(evento.keyCode == 74 || evento.keyCode == 106 ){   
+    // imgJugador.src = "img/corriendo.gif";//ancho:80  alto:123 
+//con la idea de que el cambio de texto varie cada cierto tiempo, voy a hacer uso de un contador
+// y en números impares se imprimirá el texto1
+// y en números pares se imprimirá el texto2
+     correr();
+     cesped();
      avanzar();
+     restaIzquierda();  
+     restaIzquierdaArquero();
+     
     }
   });
+
+ 
+
+
 // DETENERSE    LEER EL TECLADO (avanzar tecla j  " ")
   document.addEventListener('keyup', function(evento){
     if(  evento.keyCode == 74 || evento.keyCode == 106 // DETERNER AVANCE
@@ -15,9 +124,11 @@ document.addEventListener('keypress', function(evento){// recordar que el keypre
         || (evento.keyCode == 66 || evento.keyCode == 98)   // DETENER PATADA LARGA 
         ||  (evento.keyCode == 75 || evento.keyCode == 107) //DETENER FESTEJO ARRIBA
         || (evento.keyCode == 85 || evento.keyCode == 117) //DETENER FESTEJO 10
-        || (evento.keyCode == 72 || evento.keyCode == 104) ){ //DETENER PATADA ANGULO 
+        || (evento.keyCode == 72 || evento.keyCode == 104) ){ //DETENER PATADA ANGULO vvvvvv
      pelota.saltando = false; // ya no se implementa la función gravedad;
-     imgJugador.src = 'img/parado.gif';//ancho:80  alto:123
+     imgJugador.src = 'img/parado0.png';//ancho:80  alto:123  
+    detenerJugador(); 
+    detenido();
     }
   });
 
@@ -27,22 +138,25 @@ document.addEventListener('keypress', function(evento){// recordar que el keypre
 // PATADA CORTA    LEER EL TECLADO (avanzar tecla v  "86")
 document.addEventListener('keydown', function(evento){
     if(evento.keyCode == 86 || evento.keyCode == 118){  
-     imgJugador.src = 'img/patada.png';// 
+     //imgJugador.src = 'img/patada.gif';// 
      pelota.pateando = true;
+     patear();
      patadaCorta();
     }
   });
 // PATADA LARGA    LEER EL TECLADO (avanzar tecla b  "66")
 document.addEventListener('keydown', function(evento){
     if(evento.keyCode == 66 || evento.keyCode == 98){  
-     imgJugador.src = 'img/patada.png';// 
+     //imgJugador.src = 'img/patada.gif';// 
+     patear();
      patadaLarga();
     }
   });
 // PATADA ANGULO   LEER EL TECLADO (avanzar tecla h  "72")
 document.addEventListener('keydown', function(evento){
     if(evento.keyCode == 72 || evento.keyCode == 104){ 
-     imgJugador.src = 'img/patada.png';// 
+    // imgJugador.src = 'img/patada.gif';// 
+     patear();
      patadaAngulo();
     }
   });
@@ -63,10 +177,13 @@ document.addEventListener('keydown', function(evento){
   });
 
  
+ 
+
 
 //------------ funcion cargar imagenes ----------------------------------------------------------------
 var imgJugador;
 var imgPelota; 
+var imgArquero;
  
 
 
@@ -74,9 +191,11 @@ function cargaImagenes(){//esta función se llamará primero, al inicializar
 
     imgJugador = new Image();
     imgPelota = new Image(); 
+    imgArquero = new Image();
     
-    imgJugador.src = 'img/parado.gif';//ancho:80  alto:123
-    imgPelota.src = 'img/pelota.png';//ancho:128  alto:24 
+    imgJugador.src = 'img/parado0.png';//ancho:80  alto:123
+    imgPelota.src = 'img/pelota.png';//ancho:35  alto:34 
+    imgArquero.src = 'img/arquero.png';//ancho:98  alto:129
 }
 
 
@@ -113,7 +232,7 @@ function dibujaJugador(){ //ubica la imagen del jugador dentro del canvas
 // se debe cargar el ctx (contexto) 
 // y se utiliza el atributo 
 //.drawImage(NombreImagen,0,0,ancho,alto,ejex, ejey,escalax, escalay)
-ctx.drawImage(imgJugador,0,0,80,123,100,150,80,80);
+ctx.drawImage(imgJugador,0,0,80,123,100,50,80,80);
 }
 
  
@@ -125,7 +244,7 @@ ctx.drawImage(imgJugador,0,0,80,123,100,150,80,80);
 
 //Creo una variable la cual tendra muchos atributos, que me indicarán
 // diferentes cosas, poscición, velocidad y estado de la pelota.
-var pelota = {x:700, y:200, vx:0, vy:0, gravedad:2, salto:57, vxmax:9, saltando:false, pateaCorto:false, pateaLargo:false, pateaAngulo:false};
+var pelota = {x:700, y:100, vx:0, vy:0, gravedad:2, salto:30, vxmax:9, saltando:false, pateaCorto:false, pateaLargo:false, pateaAngulo:false};
 
 // salto son los px que avanzará
 // se moverá a 57px por fotograma
@@ -140,7 +259,7 @@ function pelotaAtributos(){ //ubica la imagen de la pelota dentro del canvas
 //pelota.x cambiará con respecto a la función gravedad()
 
 
-function saltar(){ //esta función debe estar dentro de la función avanzar 
+function aparecePelota(){ //esta función debe estar dentro de la función avanzar 
     pelota.saltando = true;
     pelota.vx =  pelota.salto; //57px
 }
@@ -149,13 +268,14 @@ function saltar(){ //esta función debe estar dentro de la función avanzar
 
 //------------ funcion avanzar  ----------------------------------------------------------------
 function avanzar(){ //llamada por el evento keypress tecla j
-    saltar(); // la función saltar se detiene con el evento keyup tecla j
+    aparecePelota(); // la función saltar se detiene con el evento keyup tecla j
+    apareceArquero();
 }
 
 
-//------------ patadas ----------------------------------------------------------------
+//------------ movimiento pelota ----------------------------------------------------------------
 //esta función hará que la pelota se mueva sobre el ejex hacia la izquierda, mientras el jugador corra, tecla j
-function restaIzquierda(){  
+function restaIzquierdaPelota(){  
     if(pelota.saltando == true){
 
 
@@ -176,26 +296,26 @@ function restaIzquierda(){
 function patadaCorta (){ 
     if(pelota.x >90 && pelota.x <165){
     pelota.pateaCorto = true; // atributo para entrar en la función sumarDerecha 
-    sumaDerecha();
+    sumaDerechaPelota();
     }else{ pelota.pateaCorto = false}
 }
 function patadaLarga (){
     if(pelota.x >90 && pelota.x <165){
     pelota.pateaLargo = true; // atributo para entrar en la función sumarDerecha 
-    sumaDerecha();
+    sumaDerechaPelota();
     }else{ pelota.pateaLargo = false}
 }
 function patadaAngulo (){ 
     if(pelota.x >90 && pelota.x <165){
     pelota.pateaAngulo = true; // atributo para entrar en la función sumarDerecha 
-    sumaDerecha();
+    sumaDerechaPelota();
     }else{ pelota.pateaAngulo = false}
 }
 
 
 
 //esta función hará que la pelota se mueva sobre el ejex hacia la derecha, luego de una patada, teclas v, b ó h
-function sumaDerecha(){   //aumenta en positivo el valor de pelota.x
+function sumaDerechaPelota(){   //aumenta en positivo el valor de pelota.x
     
     if(pelota.pateaCorto == true ){
         pelota.vx =  pelota.salto; //57px
@@ -208,7 +328,7 @@ function sumaDerecha(){   //aumenta en positivo el valor de pelota.x
 
     } else if (pelota.pateaLargo == true ){
         pelota.vx =  pelota.salto; //57px
-                 if(pelota.x > 680){  // esta posición es cuando sale del canvas por la izq 
+                 if(pelota.x > 700){  // esta posición es cuando sale del canvas por la izq 
                     pelota.pateaLargo = false; // se detiene la función sumarDerecha
                  }   else {
                 pelota.vx -=  pelota.gravedad; // vx = 57px y aqui se le resta 57-2=55, 53, ..., 3, 1, -3, -5, etc... el valor de vx se vuelve negativo
@@ -216,13 +336,13 @@ function sumaDerecha(){   //aumenta en positivo el valor de pelota.x
 
 
      } else if (pelota.pateaAngulo == true ){
-        pelota.vx =  pelota.salto; //57px
-        pelota.vy = 12;
+        pelota.vx =  pelota.salto ; //57px
+        pelota.vy = 6;
 
-                 if(pelota.x > 680 || pelota.y >200){  // esta posición es cuando sale del canvas por la izq 
+                 if(pelota.x > 700 || pelota.y >500){  // esta posición es cuando sale del canvas por la izq 
                     pelota.pateaAngulo = false; // se detiene la función sumarDerecha
                     pelota.x = 700;
-                    pelota.y = 200; 
+                    pelota.y = 100; 
 
                  }   else {
                 pelota.vx -=  pelota.gravedad; // vx = 57px y aqui se le resta 57-2=55, 53, ..., 3, 1, -3, -5, etc... el valor de vx se vuelve negativo
@@ -233,13 +353,52 @@ function sumaDerecha(){   //aumenta en positivo el valor de pelota.x
 }
 
 
+//------------ ARQUERO ----------------------------------------------------------------
+// Un contador se irá incrementando mientras el jugador realice patadas
+// En cierto valor de contador, se inicia una función que imprime al arquero en el div
+
+//------------ funcion dibujaArquero ----------------------------------------------------------------
+var arquero = {x:700, y:100, vx:0, gravedad:2, salto:30, vxmax:9};
 
 
+function arqueroAtributos(){ //ubica la imagen del jugador dentro del canvas
+    // se debe cargar el ctx (contexto) 
+    // y se utiliza el atributo 
+    //.drawImage(NombreImagen,0,0,ancho,alto,ejex, ejey,escalax, escalay)
+    ctx.drawImage(imgArquero,0,0,98,129,arquero.x,100,80,80);
+    }
+//pelota.x cambiará con respecto a la función gravedad()
+ 
+    
+    function apareceArquero(){ //esta función debe estar dentro de la función avanzar 
+        arquero.saltando = true;
+        arquero.vx =  arquero.salto; //57px
+    }
+    
 
+    function restaIzquierdaArquero(){  
+        if(arquero.saltando == true){ 
+            if(arquero.x < 0){  // esta posición es cuando sale del canvas por la izq
+                arquero.saltando = false; // ya no se implementa la función restaIzquierdaArquero
+                arquero.vx = 0;
+                arquero.x = 700; // vuelve al punto de partida 
+            }
+            else{
+            arquero.vx -=  arquero.gravedad; // vx = 57px y aqui se le resta 57-2=55, 53, ..., 3, 1, -3, -5, etc... el valor de vx se vuelve negativo
+            arquero.x -= arquero.vx //se le resta la velocidad 57-55=2, 55-53=2, 2, 2, ..., 2-0=2, 0-(-2)=2, 2-(-3)=5, 7, 9,...el valor de x aumenta
+            }
+        }
+    }
+    
+    function sumaDerechaArquero(){
+        //contador luego de que el jugador hiciera tres patadas
+        // posición de la pelota en el jugador
+       // fijar la posicion del arquero
+    }
 //------------ BUCLE PRINCIPAL----------------------------------------------------------------
 
 
-var FPS = 20;
+var FPS = 50;
 
 setInterval(function(){
     principal();
@@ -251,10 +410,27 @@ setInterval(function(){
 
 function principal (){
     borraCanvas();
+
+    //JUGADOR
     dibujaJugador(); //ubica al jugador dentro del canvas
-    restaIzquierda(); // genera el efecto de mov de la pelota hacia la izquierda, mientras el jugador corra
+    detenerJugador(); 
+    detenerPatada();
+
+    //PELOTA
+    restaIzquierdaPelota(); // genera el efecto de mov de la pelota hacia la izquierda, mientras el jugador corra
     pelotaAtributos(); //ubica la imagen de la pelota dentro del canvas
-    sumaDerecha();
+    sumaDerechaPelota(); 
+
+    //ARQUERO
+    restaIzquierdaArquero();
+    arqueroAtributos(); 
+    sumaDerechaArquero();
+
+
+    //CESPED
+    detenerCesped(); //ESTA FUNCION ESTA LLAMADA AQUI PORQUE POR ALGÚN MOTIVO AL REINICIAR LA FUNCION QUE MUEVE AL JUGADOR 
+    // Y AL CESPED SE ACTIVAN. POR LO TANTO, PREFIERO QUE INICIE CON LAS FUNCIONES QUE DETIENEN EL SETINVERVAL.
+    
 
     
 }
