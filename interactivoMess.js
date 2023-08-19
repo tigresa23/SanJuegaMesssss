@@ -403,7 +403,7 @@ function abrirFinal(){ // esta función se ejecutará al cumplirse las condicico
 //      . el jugador pateo
 //      . la pelota rueda hasta fuera del canvas por derecha.
        if(puedeAvanzarJugador == false && contador > 3){
-          window.location.href = "http:/SanJuegaMesssss/finalMess.html"
+          window.location.href = "/SanJuegaMesssss/finalMess.html"
        /* window.location.href recarga la página
          al igualarla a otra página web
          cuando recarga redireccionará automaticamente a la nueva dirección
